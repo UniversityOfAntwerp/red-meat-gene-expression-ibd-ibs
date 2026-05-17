@@ -110,11 +110,6 @@ rownames(R8_3_DiseaseEffect) <- R8_3_DiseaseEffect$ENSG_ID
 
 #volcano plots maken
 volcano(R8_3_DiseaseEffect)
-
-#Functional enrichment m.b.v. Fisher's exact test uitvoeren 
-enrich.resR8_3_DiseaseEffect<- diffex.enrich(R8_3_DiseaseEffect, reactome)
-enrich.res.upR8_3_DiseaseEffect <- diffex.enrich(R8_3_DiseaseEffect, reactome, direction="up")
-enrich.res.downR8_3_DiseaseEffect <- diffex.enrich(R8_3_DiseaseEffect, reactome, direction="down")
                                     
 #GSEA uitvoeren
 #Ongericht
