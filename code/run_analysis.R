@@ -1,5 +1,5 @@
 source("code/libraries.R")
-source("code/function.R")
+source("code/functions.R")
 
 #matrices uit file halen
 gse <- getGEO("GSE25220", GSEMatrix = TRUE) 
