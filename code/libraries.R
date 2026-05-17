@@ -4,7 +4,7 @@ required_packages <- c(
   "Biobase",    # ExpressionSet handling: exprs(), pData()
   "lme4",       # Linear mixed models
   "lmerTest",   # p-values for lmer() models
-  "readr",      # Reading/writing files
+  "readr"      # Reading/writing files
 )
 
 # Load packages
