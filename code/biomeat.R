@@ -205,7 +205,6 @@ colnames(reactome)[colnames(reactome) == "V1"] <- "gene"
 colnames(reactome)[colnames(reactome) == "V2"] <- "term"
 colnames(reactome)[colnames(reactome) == "V3"] <- "description"
 
-
 #Map ENSG's met overeenkomstige beschrijvingen (indien deze aanwezig zijn).
 map <- setNames(reactome$description, reactome$gene)
 map[R8_3_DiseaseEffect$ENSG_ID]
