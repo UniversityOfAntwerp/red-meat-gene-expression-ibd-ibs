@@ -127,7 +127,3 @@ gsea.resR8_3_DiseaseEffect <- diffex.gsea(R8_3_DiseaseEffect, reactome)
 gsea.res.upR8_3_DiseaseEffect <- diffex.gsea(R8_3_DiseaseEffect, reactome, direction="up")
 #Downreguleerd
 gsea.res.downR8_3_DiseaseEffect <- diffex.gsea(R8_3_DiseaseEffect, reactome, direction="down")
-
-
-
-
