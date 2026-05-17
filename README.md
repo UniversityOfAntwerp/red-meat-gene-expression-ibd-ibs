@@ -237,35 +237,3 @@ intervention_results <- read.csv(
   stringsAsFactors = FALSE
 )
 ```
-
-Een snelle controle van de resultaten kan bijvoorbeeld zo:
-
-```r
-head(disease_results)
-dim(disease_results)
-colnames(disease_results)
-```
-
-De meest significante genen kan je bekijken met:
-
-```r
-head(disease_results[order(disease_results$qvalue), ])
-```
-
-Significante genen selecteren kan bijvoorbeeld met:
-
-```r
-significant_disease <- disease_results[disease_results$qvalue < 0.05, ]
-```
-
-Voor up- en downregulated genen gebruik ik de richting van de estimate:
-
-```r
-up_disease <- disease_results[
-  disease_results$qvalue < 0.05 & disease_results$Estimate > 0,
-]
-
-down_disease <- disease_results[
-  disease_results$qvalue < 0.05 & disease_results$Estimate < 0,
-]
-```
