@@ -1,49 +1,32 @@
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager") 
-
 BiocManager::install("GEOquery") 
 
-
+#libraries includeren die nodig zijn
 library(GEOquery) 
-
 library(lmerTest)
-
+#matrices uit file halen
 gse <- getGEO("GSE25220", GSEMatrix = TRUE) 
 expr <- exprs(gse[[1]]) 
 meta <- pData(gse[[1]]) 
-
-dim(expr) 
-head(expr[,1:3]) 
-head(meta) 
-
 gpl <- getGEO(annotation(gse[[1]]))
 annot <- Table(gpl) 
-
-
+#rijnamen van expressietabel wat duidelijker maken 
+map1 <- setNames(annot$GENE_SYMBOL, annot$ID) 
+new_names1 <- map1[rownames(expr)] 
+rownames(expr) <- ifelse(is.na(new_names1), rownames(expr), new_names1) 
+#rijen met lege gennamen deleten 
+expr <- expr[rownames(expr) != "" & !is.na(rownames(expr)), ] 
 #kolomnamen van expressietabel vervangen met samplenamen
-
 map2 <- setNames(meta$title, rownames(meta)) 
-
 new_names2 <- map2[colnames(expr)] 
-new_names2 
 colnames(expr) <- ifelse(is.na(new_names2), colnames(expr), new_names2) 
-
 #mensen die niet meededen excluderen 
-
 remove_samples <- meta$title[meta$description == "No intervention"] 
-
 expr <- expr[, !colnames(expr) %in% remove_samples] 
 meta <- meta[meta$description == "Participated in red meat intervention", ]
-
-
-
 #histogram van alle expressiewaarden (ze zijn al log-getransformeerd), ter illustratie
-
 values2 <- as.vector(expr[1001, ]) 
-
 hist(values2, breaks = 100, main = "Expression value distribution", xlab = "Log2 expression intensity") 
-
-
-
 #diff. experession code
 fit <- NULL
 diffex.test.all <- function(form, data, meta, var=NULL) {
@@ -150,25 +133,13 @@ R8_3_DiseaseEffect <- diffex.test.all(~intervention.status.ch1:disease.status.ch
                                       # meta,
                                       # var="disease.status.ch1IBD:intervention.status.ch1after") 
 
-
-
-
-
-
-
-
 #singularities en NA's eruitfilteren
-
 R8_3_DiseaseEffect<- R8_3_DiseaseEffect[R8_3_DiseaseEffect$singular == "FALSE",]
-
 R8_3_DiseaseEffect <- R8_3_DiseaseEffect[!is.na(R8_3_DiseaseEffect$singular), ]
 R8_3_DiseaseEffect$singular <- NULL
 
-
-#Voor het InteractionModel deze lijn ook runnen
+#Voor het InteractionModel deze lijn ook runnen!
 #R8_3_InteractionEffect <- R8_3_InteractionEffect[!is.na(R8_3_InteractionEffect$Estimate), ]
-
-
 
 #volcano plots maken
 volcano <- function(diffex.res, q.thresh=0.05, fc.thresh=1, only_sig=T){
@@ -197,16 +168,11 @@ volcano <- function(diffex.res, q.thresh=0.05, fc.thresh=1, only_sig=T){
 }
 volcano(R8_3_DiseaseEffect)
 
-
-
-
-
 #Extra kolom met gennamen maken voor expressietabel
 map <- setNames(annot$GENE_SYMBOL, annot$ID)
 map
 R8_3_DiseaseEffect$gene <- map[rownames(R8_3_DiseaseEffect)]
 R8_3_DiseaseEffect$gene[is.na(R8_3_DiseaseEffect$gene)] <- rownames(R8_3_DiseaseEffect)[is.na(R8_3_DiseaseEffect$gene)]
-
 
 #Beste probe per gen behouden (slechte duplicaten wegwerken)
 R8_3_DiseaseEffect <- R8_3_DiseaseEffect[order(R8_3_DiseaseEffect$qvalue), ]
@@ -242,21 +208,13 @@ colnames(reactome)[colnames(reactome) == "V3"] <- "description"
 
 #Map ENSG's met overeenkomstige beschrijvingen (indien deze aanwezig zijn).
 map <- setNames(reactome$description, reactome$gene)
-
 map[R8_3_DiseaseEffect$ENSG_ID]
 R8_3_DiseaseEffect$Description <- map[R8_3_DiseaseEffect$ENSG_ID]
-
 R8_3_DiseaseEffect <- R8_3_DiseaseEffect[!is.na(R8_3_DiseaseEffect$Description), ]
-
 R8_3_DiseaseEffect <- R8_3_DiseaseEffect[!duplicated(R8_3_DiseaseEffect$ENSG_ID), ]
 
 #Vervang rownames door ENSG id's
 rownames(R8_3_DiseaseEffect) <- R8_3_DiseaseEffect$ENSG_ID
-
-
-
-
-
 
 
 # Define a function which performs the Fisher exact test
@@ -316,19 +274,11 @@ diffex.enrich <- function(diffex.res, annotations, direction="all"){
 
 
 #Functional enrichment m.b.v. Fisher's exact test uitvoeren 
-
 enrich.resR8_3_DiseaseEffect<- diffex.enrich(R8_3_DiseaseEffect, reactome)
-
 enrich.res.upR8_3_DiseaseEffect <- diffex.enrich(R8_3_DiseaseEffect, reactome, direction="up")
-
 enrich.res.downR8_3_DiseaseEffect <- diffex.enrich(R8_3_DiseaseEffect, reactome, direction="down")
 
-
-
-
-
-
-
+                                    
 # Define a function which performs a Gene Set Enrichment Analysis (GSEA)
 # For a differential expression result.
 diffex.gsea <- function(diffex.res, annotations, direction="all"){
@@ -376,7 +326,6 @@ diffex.gsea <- function(diffex.res, annotations, direction="all"){
 
 
 #GSEA uitvoeren
-
 #Ongericht
 gsea.resR8_3_DiseaseEffect <- diffex.gsea(R8_3_DiseaseEffect, reactome)
 #Opreguleerd
