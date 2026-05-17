@@ -37,21 +37,17 @@ meta$gender.ch1 <- as.factor(meta$gender.ch1)
 typeof(meta$age.ch1)
 meta$age.ch1 <- as.numeric(meta$age.ch1)
 
-
 #IBS als baseline zetten ivg m. IBD
 meta$disease.status.ch1 <- relevel(
   meta$disease.status.ch1,
   ref = "IBS"
 )
 
-
-
 #"Before" als baseline zetten ivg m "After"
 meta$intervention.status.ch1 <- relevel(
   meta$intervention.status.ch1,
   ref = "before"
 )
-
 
 #volledig model (voor DiseaseEffect, intervention effect, en interaction effect respectievelijk). Voor de rest van de model wordt enkel met DiseaseEffect gewerkt, maar de andere modellen werken analoog
 R8_3_DiseaseEffect <- diffex.test.all(~intervention.status.ch1:disease.status.ch1 + disease.status.ch1 + intervention.status.ch1 + gender.ch1 + age.ch1 + (1| subject.number.ch1),
