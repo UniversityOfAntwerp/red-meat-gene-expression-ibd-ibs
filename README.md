@@ -1,4 +1,4 @@
-# Red meat gene expression analysis in IBD and IBS
+# Roodvlees geneexpressie analysise in IBD and IBS patiënten.
 
 Deze repository bevat een R-analyse van genexpressie in colonbiopten van personen met IBD en IBS. De samples zijn genomen voor en na een korte interventie met rood vlees. We gebruiken hiervoor de publieke GEO-dataset [GSE25220](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE25220).
 
@@ -9,7 +9,7 @@ DOI: [10.1016/j.fct.2011.10.038](https://doi.org/10.1016/j.fct.2011.10.038)
 
 We hebben deze dataset vooral gebruikt om te kijken of er met een mixed model duidelijke verschillen terug te vinden zijn tussen IBD en IBS, en of de roodvleesinterventie daar nog een extra effect op heeft. De analyse is dus niet bedoeld als volledige reproductie van de originele paper, maar eerder als een eigen uitwerking op basis van dezelfde publieke data.
 
-De vragen waar we vooral naar kijk zijn:
+De vragen waar we vooral naar kijken zijn:
 
 - verschillen IBD en IBS samples in genexpressie?
 - verandert genexpressie na de roodvleesinterventie?
