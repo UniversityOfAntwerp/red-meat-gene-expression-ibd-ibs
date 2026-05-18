@@ -19,7 +19,6 @@ De vragen waar we vooral naar kijk zijn:
 
 ```text
 .
-├── LICENSE
 ├── README.md
 ├── code
 │   ├── functions.R
