@@ -58,7 +58,7 @@ De code opgesplitst in aparte bestanden omdat het anders snel onoverzichtelijk w
 - `import_data.R`: leest de extra databestanden uit de map `data` in.
 - `run_analysis.R`: voert de analyse zelf uit.
 
-De belangrijkste packages zijn `GEOquery`, `Biobase`, `lme4`, `lmerTest` en `readr`.
+De belangrijkste packages zijn `GEOquery`, `lmerTest`.
 
 ## Data inladen
 
@@ -150,7 +150,7 @@ Met dit model kunnen drie effecten bekeken worden:
 | Effect na de interventie | `intervention.status.ch1after` |
 | Verschillend interventie-effect bij IBD | `disease.status.ch1IBD:intervention.status.ch1after` |
 
-In de huidige versie van de code wordt vooral het disease-effect actief uitgevoerd. De intervention- en interaction-analyses staan ook in het script, maar zijn uitgecommentarieerd. Ik heb ze wel laten staan, omdat ze nuttig zijn als je later dezelfde analyse ook voor die effecten wilt draaien.
+In de huidige versie van de code wordt vooral het disease-effect actief uitgevoerd. De intervention- en interaction-analyses staan ook in het script, maar zijn uitgecommentarieerd. De enige veranderingen vereist hierna is de "R8_3_DiseaseEffect" namen in opvbolgende lijnen veranderen naar respectievelijke bestandnamen.
 
 ## Belangrijkste functies
 
@@ -165,8 +165,8 @@ R$qvalue <- p.adjust(R$`Pr(>|t|)`, method = "fdr")
 Verder staan er functies in voor visualisatie en pathway-analyse:
 
 - `volcano()` maakt een volcano plot.
-- `diffex.enrich()` voert Reactome enrichment uit.
-- `diffex.gsea()` voert een GSEA-achtige analyse uit.
+- `diffex.enrich()` voert Reactome enrichment uit m.b.v. de Fischer's exact test of Chi-kwadraat test.
+- `diffex.gsea()`  voert een GSEA analyse uit.
 
 De volcano plot gebruikt de estimate op de x-as en `-log2(p-value)` op de y-as. Dat geeft snel een eerste beeld van genen met een groter effect en een lage p-waarde.
 
