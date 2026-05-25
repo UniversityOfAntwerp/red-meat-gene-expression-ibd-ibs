@@ -74,3 +74,21 @@ plot(euler(fit),
   fills = myCol,
   quantities = TRUE
 )
+
+#fisher's exact test voor similarities om te zien voor significante overlap tussen
+# downreguleerde functionaliteiten in disease vs intervention
+
+A_sig <-  paste(gsea.res.downR8_3_diseaseEFFECTonly_fullmodel$description[gsea.res.downR8_3_diseaseEFFECTonly_fullmodel$qvalue < 0.05])  # significante termen voor disease-effect (waarbij we de overlap willen testen)
+B_sig <-  paste(gsea.res.downR8_3_interventionEFFECTonly_fullmodel$description[gsea.res.downR8_3_interventionEFFECTonly_fullmodel$qvalue < 0.05])
+universe <- gsea.res.downR8_3_diseaseEFFECTonly_fullmodel$description #alle geteste downgereguleerde functionaliteiten bij de GSEA
+
+a <- length(intersect(A_sig, B_sig))
+b <- length(setdiff(A_sig, B_sig))
+c <- length(setdiff(B_sig, A_sig))
+d <- length(setdiff(universe, union(A_sig, B_sig)))
+contingency <- matrix(c(a,b,c,d), nrow=2)
+
+colnames(contingency) <- c("In B_sig", "Niet in B_sig")
+rownames(contingency) <- c("In A_sig", "Niet in A_sig")
+
+fisher.test(contingency)$p.value
