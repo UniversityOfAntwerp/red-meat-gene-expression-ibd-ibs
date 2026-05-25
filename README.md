@@ -50,6 +50,8 @@ Dat script laadt eerst de andere bestanden in:
 source("code/libraries.R")
 source("code/functions.R")
 source("code/import_data.R")
+source("code/venn-diagram.R")
+
 ```
 
 De code opgesplitst in aparte bestanden omdat het anders snel onoverzichtelijk wordt. De algemene structuur is:
