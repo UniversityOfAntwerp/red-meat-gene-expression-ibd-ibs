@@ -53,9 +53,8 @@ metabolism_termen <- c(
   "rRNA modification in the nucleus and cytosol",
   "RNA Polymerase III Transcription"
 )
-
-Diffexdown_Disease <- paste(gsea.res.downR8_3_Disease_fullmodel$description[gsea.res.downR8_3_Disease_fullmodel$qvalue < 0.05])
-Diffexdown_Intervention <- paste(gsea.res.downR8_3_Intervention_fullmodel$description[gsea.res.downR8_3_Intervention_fullmodel$qvalue < 0.05])
+Diffexdown_Disease <- paste(gsea.res.downR8_3_DiseaseEffect$description[gsea.res.downR8_3_DiseaseEffect$qvalue < 0.05])
+Diffexdown_Intervention <- paste(gsea.res.downR8_3_InterventionEffect$description[gsea.res.downR8_3_InterventionEffect$qvalue < 0.05])
 Metabolism_Linked <- paste(metabolism_termen)
 
 
@@ -64,23 +63,23 @@ myCol <- brewer.pal(3, "Pastel2")
 
 # de venn-diagram 
 fit <- list(
-    "DF-Disease" = Diffexdown_Disease,
-    "DF-Intervention" = Diffexdown_Intervention,
-    "Metabolism-associated" = Metabolism_Linked
-  )
+  "DF-Disease" = Diffexdown_Disease,
+  "DF-Intervention" = Diffexdown_Intervention,
+  "Metabolism-associated" = Metabolism_Linked
+)
 
 # plotten
 plot(euler(fit),
-  fills = myCol,
-  quantities = TRUE
+     fills = myCol,
+     quantities = TRUE
 )
 
 #fisher's exact test om te zien voor significante overlap tussen
 # downreguleerde functionaliteiten in disease vs intervention
 
-A_sig <-  paste(gsea.res.downR8_3_disease_fullmodel$description[gsea.res.downR8_3_disease_fullmodel$qvalue < 0.05])  # significante termen voor disease-effect (waarbij we de overlap willen testen)
-B_sig <-  paste(gsea.res.downR8_3_intervention_fullmodel$description[gsea.res.downR8_3_intervention_fullmodel$qvalue < 0.05])
-universe <- gsea.res.downR8_3_disease_fullmodel$description #alle geteste downgereguleerde functionaliteiten bij de GSEA
+A_sig <-  paste(gsea.res.downR8_3_DiseaseEffect$description[gsea.res.downR8_3_DiseaseEffect$qvalue < 0.05])  # significante termen voor disease-effect (waarbij we de overlap willen testen)
+B_sig <-  paste(gsea.res.downR8_3_InterventionEffect$description[gsea.res.downR8_3_InterventionEffect$qvalue < 0.05])
+universe <- gsea.res.downR8_3_DiseaseEffect$description #alle geteste downgereguleerde functionaliteiten bij de GSEA
 
 a <- length(intersect(A_sig, B_sig))
 b <- length(setdiff(A_sig, B_sig))
@@ -91,27 +90,3 @@ contingency <- matrix(c(a,b,c,d), nrow=2)
 colnames(contingency) <- c("In B_sig", "Niet in B_sig")
 rownames(contingency) <- c("In A_sig", "Niet in A_sig")
 
-fisher.test(contingency)$p.value
-#fisher's exact test om te testen of metabolism-associated functions overgepresenteerd zijn
-  #in de significant downregulated functionalities
-
-B <- metabolism_termen
-A <- unique(c(
-  gsea.res.downR8_3_disease_fullmodel$description[
-    gsea.res.downR8_3_disease_fullmodel$qvalue < 0.05
-  ],
-  gsea.res.downR8_3_intervention_fullmodel$description[
-    gsea.res.downR8_3_intervention_fullmodel$qvalue < 0.05
-  ]
-))
-
-universe <- gsea.res.downR8_3_disease_fullmodel$description
-
-a <- length(intersect(A, B))
-b <- length(setdiff(A, B))
-c <- length(setdiff(B, A))
-d <- length(setdiff(universe, union(A, B)))
-
-contingency <- matrix(c(a,b,c,d), nrow = 2)
-
-fisher.test(contingency)$p.value
