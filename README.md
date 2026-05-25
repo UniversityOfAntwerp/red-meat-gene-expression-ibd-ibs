@@ -23,6 +23,7 @@ De vragen waar we vooral naar kijken zijn:
 ├── code                                               #Rscripts voor de analyse
 │   ├── functions.R                                    #eigen functies
 │   ├── import_data.R                                  #data inladen
+│   ├── venn-diagram.R                                 #venn-diagram weergeven    
 │   ├── libraries.R                                    #packages inladen
 │   └── run_analysis.R                                 #analyse uitvoeren
 ├── data                                               #gebruikte data
