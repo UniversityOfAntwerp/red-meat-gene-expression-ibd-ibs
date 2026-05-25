@@ -9,7 +9,7 @@ DOI: [10.1016/j.fct.2011.10.038](https://doi.org/10.1016/j.fct.2011.10.038)
 
 We hebben deze dataset vooral gebruikt om te kijken of er met een mixed model duidelijke verschillen terug te vinden zijn tussen IBD en IBS, en of de roodvleesinterventie daar nog een extra effect op heeft. De analyse is dus niet bedoeld als volledige reproductie van de originele paper, maar eerder als een eigen uitwerking op basis van dezelfde publieke data.
 
-De vragen waar we vooral naar kijken zijn:
+De vragen waar we vooral naar kijken zijn:                                      -
 
 - verschillen IBD en IBS samples in genexpressie?
 - verandert genexpressie na de roodvleesinterventie?
