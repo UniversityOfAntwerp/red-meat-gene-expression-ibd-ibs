@@ -92,3 +92,26 @@ colnames(contingency) <- c("In B_sig", "Niet in B_sig")
 rownames(contingency) <- c("In A_sig", "Niet in A_sig")
 
 fisher.test(contingency)$p.value
+#fisher's exact test om te testen of metabolism-associated functions overgepresenteerd zijn
+  #in de significant downregulated functionalities
+
+B <- metabolism_terms
+A <- unique(c(
+  gsea.res.downR8_3_diseaseEFFECTonly_fullmodel$description[
+    gsea.res.downR8_3_diseaseEFFECTonly_fullmodel$qvalue < 0.05
+  ],
+  gsea.res.downR8_3_interventionEFFECTonly_fullmodel$description[
+    gsea.res.downR8_3_interventionEFFECTonly_fullmodel$qvalue < 0.05
+  ]
+))
+
+universe <- unique(gsea.res.downR8_3_diseaseEFFECTonly_fullmodel$description)
+
+a <- length(intersect(A, B))
+b <- length(setdiff(A, B))
+c <- length(setdiff(B, A))
+d <- length(setdiff(universe, union(A, B)))
+
+contingency <- matrix(c(a,b,c,d), nrow = 2)
+
+fisher.test(contingency)$p.value
